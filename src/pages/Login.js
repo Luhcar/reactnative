@@ -4,7 +4,7 @@ import Label from '../components/atoms/Label'
 import Input from '../components/atoms/Input'
 import { getData, storeData } from '../storages/localStorage'
 
-const Login = () => {
+const Login = ({ navigation }) => {
   // const [username, setUsername] = useState('')
   // const [email, setEmail] = useState('')
   // const [phonenumber, setPhoneNumber] = useState('')
@@ -55,11 +55,6 @@ const Login = () => {
       // Untuk menyimpan data login ke local storage
       storeData('auth', LoginForm)
 
-      // Untuk melihat data yang sudah di simpan di local storage
-      getData('auth').then(async res => {
-        console.log('Data dari local storage', res)
-      });
-
       // Jika sudah behasil login, maka akan direset menjadi kosong
       setLoginForm({
         username: '',
@@ -67,6 +62,8 @@ const Login = () => {
         phonenumber: '',
         password: '', 
       })
+
+      navigation.replace('Home')
   }
 
   return (

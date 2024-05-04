@@ -1,7 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { useEffect } from 'react'
+import { getData } from '../storages/localStorage'
 
-const SplashScreen = () => {
+const SplashScreen = ({ navigation }) => {
+
+    useEffect(() => {
+        setTimeout(() => {
+          getData('auth').then(async res => {
+            if (res) {
+              navigation.replace('Home')
+            } else {
+              navigation.replace('Login')
+            }
+          })
+        }, 2000)
+    })
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>

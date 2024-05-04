@@ -1,7 +1,26 @@
-import { View, Text, SafeAreaView, StyleSheet, Image, YellowBox, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Image, YellowBox, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { getData, removeData } from '../storages/localStorage'
 
-const Home = () => {
+const Home = ({ navigation }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    getData('auth').then(async res => {
+      if (!res) {
+        navigation.replace('Login');
+      } else {
+        setUser(res);
+      }
+    })
+  })
+
+  function logout() {
+    removeData('auth');
+
+    navigation.replace('Login');
+  }
+
   return (
     <SafeAreaView style= {styles.container }>
     <View  style={{ backgroundColor:'red' }}>
@@ -10,8 +29,13 @@ const Home = () => {
 
     <View style = {styles.latarbelakang}>
       <Text style = {styles.judulLatarBelakang}>
-        Hello Wassup
+        Hello {user?.username}
       </Text>
+        <TouchableOpacity onPress={logout}>
+          <Text>
+            Logo Out
+          </Text>
+        </TouchableOpacity>
     </View>
     <View style={styleProduk.row}> 
 

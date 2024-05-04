@@ -6,6 +6,22 @@ import Counter from './pages/Counter';
 import SplashScreen from './pages/SplashScreen';
 import {useState} from 'react';
 import {getData} from './storages/localStorage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="TabHome" component={Home} options={{headerShown: false}}/>
+      <Tab.Screen name="TabCounter" component={Counter} options={{headerShown: false}}/>
+    </Tab.Navigator>
+  );
+}
 
 const App = () => {
   const [isSplash, setSplash] = useState(true);
@@ -24,18 +40,13 @@ const App = () => {
   });
 
   return (
-    <>
-      {/* <Counter /> */}
-
-      {/* <Home /> */}
-
-      {/* <Login /> */}
-
-      {isSplash ? 
-      <SplashScreen /> 
-      : 
-      (isLogin ? <Home /> : <Login />)}
-    </>
+    <NavigationContainer initialRouteName="SpalshScreen">
+      <Stack.Navigator>
+        <Stack.Screen name="SpalshScreen" component={SplashScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+        <Stack.Screen name="Home" component={MyTabs} options={{headerShown: false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
