@@ -2,6 +2,7 @@ import { SafeAreaView, StyleSheet, Text, View, TextInput, Pressable, TouchableOp
 import React, { useState } from 'react'
 import Label from '../components/atoms/Label'
 import Input from '../components/atoms/Input'
+import { getData, storeData } from '../storages/localStorage'
 
 const Login = () => {
   // const [username, setUsername] = useState('')
@@ -47,7 +48,19 @@ const Login = () => {
         Alert.alert('password harus diisi')
         return
       }
+
+      // Jika vaidasi diatas sudah benar, maka akan muncul alert login berhasil
       Alert.alert('Login Berhasil')
+
+      // Untuk menyimpan data login ke local storage
+      storeData('auth', LoginForm)
+
+      // Untuk melihat data yang sudah di simpan di local storage
+      getData('auth').then(async res => {
+        console.log('Data dari local storage', res)
+      });
+
+      // Jika sudah behasil login, maka akan direset menjadi kosong
       setLoginForm({
         username: '',
         email: '',
