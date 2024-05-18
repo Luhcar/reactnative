@@ -1,61 +1,70 @@
-import { View, Text, SafeAreaView, StyleSheet, Image, YellowBox, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { getData, removeData } from '../storages/localStorage'
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Image,
+  YellowBox,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {getData, removeData} from '../storages/localStorage';
 
-const Home = ({ navigation }) => {
+const Home = ({navigation}) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    getData('auth').then(async res => {
-      if (!res) {
-        navigation.replace('Login');
-      } else {
+    getData('token').then(async res => {
+      if (res) {
         setUser(res);
-      }
-    })
-  })
+      } 
+    });
+
+      getData('token').then(async res => {
+        if (!res) {
+          navigation.replace('Login');
+        }
+    });
+  });
 
   function logout() {
     removeData('auth');
+    removeData('token');
 
     navigation.replace('Login');
   }
 
   return (
-    <SafeAreaView style= {styles.container }>
-    <View  style={{ backgroundColor:'red' }}>
-      <Text style={{ color: 'blue' }}>Hello World </Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={{backgroundColor: 'red'}}>
+        <Text style={{color: 'blue'}}>Hello World </Text>
+      </View>
 
-    <View style = {styles.latarbelakang}>
-      <Text style = {styles.judulLatarBelakang}>
-        Hello {user?.username}
-      </Text>
+      <View style={styles.latarbelakang}>
+        <Text style={styles.judulLatarBelakang}>Hello {user?.name}</Text>
         <TouchableOpacity onPress={logout}>
-          <Text>
-            Logo Out
-          </Text>
+          <Text>Logo Out</Text>
         </TouchableOpacity>
-    </View>
-    <View style={styleProduk.row}> 
-
-    <View style={{flex:1}}>
-      <ScrollView contentContainerStyle={styleProduk.row}>
-        {[1,2,3,4,5,6,,8,9,10].map(item => (
-          <View key={item} style={styleProduk.card}>
-      <Image source={require('../assets/images/laptop.jpg')} style={styleProduk.gambarProduk}/>
-      <Text style={styleProduk.namaProduk}>
-        Produk Laptop Shopee
-      </Text>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
-    </View>
+      </View>
+      <View style={styleProduk.row}>
+        <View style={{flex: 1}}>
+          <ScrollView contentContainerStyle={styleProduk.row}>
+            {[1, 2, 3, 4, 5, 6, , 8, 9, 10].map(item => (
+              <View key={item} style={styleProduk.card}>
+                <Image
+                  source={require('../assets/images/laptop.jpg')}
+                  style={styleProduk.gambarProduk}
+                />
+                <Text style={styleProduk.namaProduk}>Produk Laptop Shopee</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      </View>
     </SafeAreaView>
-    
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -65,18 +74,18 @@ const styles = StyleSheet.create({
     //marginHorizontal: 20,
     margin: 20,
     flex: 1,
-    backgroundColor: 'grey'
+    backgroundColor: 'grey',
   },
   latarbelakang: {
-    backgroundColor: 'pink'
+    backgroundColor: 'pink',
   },
   judulLatarBelakang: {
     color: 'blue',
     fontSize: 30,
-    fontWeight:'bold',
-    fontFamily: 'Arial'
-  }
-})
+    fontWeight: 'bold',
+    fontFamily: 'Arial',
+  },
+});
 
 const styleProduk = StyleSheet.create({
   row: {
@@ -104,18 +113,17 @@ const styleProduk = StyleSheet.create({
     marginBottom: 5,
   },
   namaProduk: {
-    color : 'black',
+    color: 'black',
     textAlign: 'center',
     fontSize: 14,
     fontWeight: 'bold',
     textDecorationLine: 'none',
-  }
-})
+  },
+});
 
 const gaya = StyleSheet.create({
   latarbelakang: {
-    backgroundColor: 'green'
-  }
-})
-export default Home
-
+    backgroundColor: 'green',
+  },
+});
+export default Home;
